@@ -19,13 +19,10 @@ namespace Cars
                     car.Name, car.Combined 
                 };
 
-            var names = query.Select(x => x.Name);
-            foreach (var name in names)
+            var result = query.SelectMany(x => x.Name);
+            foreach (var character in result)
             {
-                foreach (var character in name)
-                {
-                    Console.WriteLine(character);
-                }
+                Console.WriteLine(character);
             }
 
             //foreach (var car in query.Take(5))
