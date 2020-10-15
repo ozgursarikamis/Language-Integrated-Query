@@ -13,10 +13,15 @@ namespace Cars
 
             var query = from car in cars
                 orderby car.Combined ascending, car.Name ascending
-                select car;
-            foreach (var car in query)
+                select new
+                {
+                    Manifacturer = car.Manufacturer,
+                    car.Name, car.Combined 
+                };
+
+            foreach (var car in query.Take(5))
             {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
+                Console.WriteLine($"{car.Manifacturer} : {car.Combined}");
             }
 
             Console.ReadLine();
