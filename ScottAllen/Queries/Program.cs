@@ -17,10 +17,14 @@ namespace Queries
             };
 
             var query = movies.Filter(x => x.Year > 2000);
-            //foreach (var movie in query)
-            //{
-            //    //Console.WriteLine(movie.Title);
-            //}
+
+            query = query.Take(1);
+
+            var enumerator = query.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                Console.WriteLine(enumerator.Current.Title);
+            }
 
             Console.ReadLine();
         }
