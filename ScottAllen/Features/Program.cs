@@ -25,9 +25,7 @@ namespace Features
             };
 
             foreach (var employee in developers.Where(
-                delegate (Employee employee){
-                    return employee.Name.StartsWith("S");
-                })
+                employee => employee.Name.StartsWith("S"))
             )
             {
                 Console.WriteLine(employee.Name);
