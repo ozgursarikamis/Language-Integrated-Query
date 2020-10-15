@@ -10,7 +10,7 @@ namespace Features
     }
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             IEnumerable<Employee> developers = new Employee[]
             {
@@ -23,6 +23,7 @@ namespace Features
                 new Employee {Id = 3, Name = "Alex"}
             };
 
+            Console.WriteLine($"Count: {sales.Count()}");
             foreach (var person in developers)
             {
                 Console.WriteLine($"{person.Name} - {person.Id}");
