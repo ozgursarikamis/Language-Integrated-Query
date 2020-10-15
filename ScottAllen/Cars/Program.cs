@@ -20,13 +20,20 @@ namespace Cars
                 .ThenBy(x => x.Name)
                 .Select(x => x)
                 .FirstOrDefault(z => z.Manufacturer == "B,MW" && z.Year == 2016);
-            Console.WriteLine(query2.Name);
+
+            var top = cars.Any(c => c.Manufacturer == "Ford");
+            Console.WriteLine(top);
             Console.WriteLine();
 
-            foreach (var car in query)
-            {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
-            }
+            Console.WriteLine(query2?.Name);
+            Console.WriteLine();
+
+            //foreach (var car in query)
+            //{
+            //    Console.WriteLine($"{car.Name} : {car.Combined}");
+            //}
+
+            Console.ReadLine();
         }
 
         private static List<Car> ProcessFile(string path)
