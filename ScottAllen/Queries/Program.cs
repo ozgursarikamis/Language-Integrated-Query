@@ -16,11 +16,11 @@ namespace Queries
                 new Movie {Title = "Star wars V", Rating = 8.7f, Year = 1980},
             };
 
-            var query = movies.Where(x => x.Year > 2000);
-            foreach (var movie in query)
-            {
-                Console.WriteLine(movie.Title);
-            }
+            var query = movies.Filter(x => x.Year > 2000);
+            //foreach (var movie in query)
+            //{
+            //    //Console.WriteLine(movie.Title);
+            //}
 
             Console.ReadLine();
         }
