@@ -12,8 +12,7 @@ namespace Queries
         public int Year
         {
             get
-            {
-                throw new Exception("Error!");
+            { 
                 Console.WriteLine($"Returning {_year} for {Title}");
                 return _year;
             }
