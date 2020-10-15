@@ -15,7 +15,15 @@ namespace Cars
                 orderby car.Combined ascending, car.Name ascending
                 select car;
 
-            foreach (var car in query.Take(10))
+            var query2 = cars
+                .OrderByDescending(x => x.Combined)
+                .ThenBy(x => x.Name)
+                .Select(x => x)
+                .FirstOrDefault(z => z.Manufacturer == "B,MW" && z.Year == 2016);
+            Console.WriteLine(query2.Name);
+            Console.WriteLine();
+
+            foreach (var car in query)
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
