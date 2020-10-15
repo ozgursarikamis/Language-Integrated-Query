@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Introduction", "ScottAllen\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Features", "ScottAllen\Features\Features.csproj", "{084446BF-329D-41AC-833F-39573BD24D09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queries", "ScottAllen\Queries\Queries.csproj", "{8A7D725B-A461-403D-97B3-BDA75E12AA92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{084446BF-329D-41AC-833F-39573BD24D09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084446BF-329D-41AC-833F-39573BD24D09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084446BF-329D-41AC-833F-39573BD24D09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A7D725B-A461-403D-97B3-BDA75E12AA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7D725B-A461-403D-97B3-BDA75E12AA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7D725B-A461-403D-97B3-BDA75E12AA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7D725B-A461-403D-97B3-BDA75E12AA92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
