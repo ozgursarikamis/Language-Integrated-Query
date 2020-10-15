@@ -13,6 +13,13 @@ namespace Features
     {
         private static void Main()
         {
+            Func<int, int> f1 = Square;
+            Func<int, int> f = x => x * x;
+            Func<int, int, int> add = (x, y) => x + y;
+
+            Console.WriteLine(f(3));
+            Console.WriteLine(add(7, 8));
+
             IEnumerable<Employee> developers = new Employee[]
             {
                 new Employee{ Id = 1, Name = "Scott" }, 
@@ -46,6 +53,11 @@ namespace Features
             }
 
             Console.ReadLine();
+        }
+
+        private static int Square(int arg)
+        {
+            throw new NotImplementedException();
         }
 
         private static bool NameStartsWithS(Employee employee)
