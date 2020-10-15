@@ -9,6 +9,32 @@ namespace Cars
     {
         private static void Main()
         {
+            PetOwner[] owners = new[]
+            {
+                new PetOwner { Name = "Higa", Pets = new List<string>{ "Scruffy", "Sam" }},
+                new PetOwner { Name="Ashkenazi",
+                Pets = new List<string>{ "Walker", "Sugar" } },
+                new PetOwner { Name="Price", Pets = new List<string>{ "Scratches", "Diesel" } },
+                new PetOwner { Name="Hines", Pets = new List<string>{ "Dusty" } }
+            };
+
+            var petQuery = owners
+                .SelectMany(
+                    petOwner => petOwner.Pets, 
+                    (petOwner, petName) => new {petOwner, petName})
+                .Where(ownerAndPet => ownerAndPet.petName.StartsWith("S"))
+                .Select(ownerAndPet => new
+                {
+                    Owner = ownerAndPet.petOwner.Name,
+                    Pet = ownerAndPet.petName
+                });
+
+            foreach (var pet in petQuery)
+            {
+                Console.WriteLine($"Owner: {pet.Owner, 10} : Pet: {pet.Pet, 20}");
+            }
+
+
             var cars = ProcessFile("fuel.csv");
 
             var query = from car in cars
@@ -20,10 +46,10 @@ namespace Cars
                 };
 
             var result = query.SelectMany(x => x.Name);
-            foreach (var character in result)
-            {
-                Console.WriteLine(character);
-            }
+            //foreach (var character in result)
+            //{
+            //    Console.WriteLine(character);
+            //}
 
             //foreach (var car in query.Take(5))
             //{
