@@ -20,6 +20,9 @@ namespace Features
             Console.WriteLine(f(3));
             Console.WriteLine(add(7, 8));
 
+            Action<int> write = x => Console.WriteLine(x);
+            write(8);
+
             IEnumerable<Employee> developers = new Employee[]
             {
                 new Employee{ Id = 1, Name = "Scott" }, 
