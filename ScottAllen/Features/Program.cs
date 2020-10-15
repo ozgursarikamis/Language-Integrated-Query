@@ -29,10 +29,16 @@ namespace Features
                 new Employee{ Id = 2, Name = "Chris" }
             };
 
-            IEnumerable<Employee> sales = new List<Employee>
-            {
-                new Employee {Id = 3, Name = "Alex"}
-            };
+            //Query syntax:
+            var dev = from developer in developers
+                where developer.Name.StartsWith("S")
+                orderby developer.Name
+                select developer.Name;
+
+               IEnumerable < Employee > sales = new List<Employee>
+               {
+                    new Employee {Id = 3, Name = "Alex"}
+               };
 
             foreach (var employee in developers.Where(
                 employee => employee.Name.StartsWith("S"))
