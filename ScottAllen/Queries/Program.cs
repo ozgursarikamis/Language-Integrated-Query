@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Queries
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
@@ -16,10 +16,18 @@ namespace Queries
                 new Movie {Title = "Star wars V", Rating = 8.7f, Year = 1980},
             };
 
-            var query = movies.Filter(x => x.Year > 2000);
+            var query = Enumerable.Empty<Movie>();
 
-            query = query.Take(1);
+            try
+            {
+                query = movies.Where(x => x.Year > 2000).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message); 
+            }
 
+            Console.WriteLine(query.Count());
             var enumerator = query.GetEnumerator();
             while (enumerator.MoveNext())
             {
