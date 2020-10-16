@@ -32,10 +32,14 @@ namespace Cars
         private static void CreateXml()
         {
             var records = ProcessFile("fuel.csv");
+
+            var nameSpace = (XNamespace) "http://pluralsight.com/cars/2016";
+            var ex = (XNamespace) "http://pluralsight.com/cars/2016/ex";
+
             var document = new XDocument();
-            var cars = new XElement("Cars",
+            var cars = new XElement(nameSpace + "Cars",
                 from record in records
-                select new XElement("Car",
+                select new XElement(ex + "Car",
                     new XAttribute("Name", record.Name),
                     new XAttribute("Combined", record.Combined),
                     new XAttribute("Manufacturer", record.Manufacturer)
