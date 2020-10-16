@@ -22,10 +22,15 @@ namespace Cars
                     Cars = carGroup
                 };
 
-            var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
-                .OrderBy(g => g.Key);
+            var query2 = manufacturers.GroupJoin(cars,
+                m => m.Name, c => c.Manufacturer, (m, g) => new
+                {
+                    Manufacturer = m,
+                    Cars = g
+                }
+            ).OrderBy(m => m.Manufacturer.Name);
 
-            foreach (var group in query)
+            foreach (var group in query2)
             {
                 Console.WriteLine($"{group.Manufacturer.Name, -10}: {group.Manufacturer.Headquarters}");
                 foreach (var car in group.Cars.OrderByDescending(c => c.Combined).Take(2))
