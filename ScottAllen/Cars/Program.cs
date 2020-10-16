@@ -9,54 +9,39 @@ namespace Cars
     {
         private static void Main()
         {
-            PetOwner[] owners = new[]
-            {
-                new PetOwner { Name = "Higa", Pets = new List<string>{ "Scruffy", "Sam" }},
-                new PetOwner { Name="Ashkenazi",
-                Pets = new List<string>{ "Walker", "Sugar" } },
-                new PetOwner { Name="Price", Pets = new List<string>{ "Scratches", "Diesel" } },
-                new PetOwner { Name="Hines", Pets = new List<string>{ "Dusty" } }
-            };
-
-            var petQuery = owners
-                .SelectMany(
-                    petOwner => petOwner.Pets, 
-                    (petOwner, petName) => new {petOwner, petName})
-                .Where(ownerAndPet => ownerAndPet.petName.StartsWith("S"))
-                .Select(ownerAndPet => new
-                {
-                    Owner = ownerAndPet.petOwner.Name,
-                    Pet = ownerAndPet.petName
-                });
-
-            foreach (var pet in petQuery)
-            {
-                Console.WriteLine($"Owner: {pet.Owner, 10} : Pet: {pet.Pet, 20}");
-            }
-
-
             var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
 
-            var query = from car in cars
-                orderby car.Combined ascending, car.Name ascending
+            var query =
+                from car in cars
+                where car.Manufacturer == "BMW" && car.Year == 2016
+                orderby car.Combined descending, car.Name ascending
                 select new
                 {
-                    Manifacturer = car.Manufacturer,
-                    car.Name, car.Combined 
+                    car.Manufacturer,
+                    car.Name,
+                    car.Combined
                 };
-
-            var result = query.SelectMany(x => x.Name);
-            //foreach (var character in result)
-            //{
-            //    Console.WriteLine(character);
-            //}
-
-            //foreach (var car in query.Take(5))
-            //{
-            //    Console.WriteLine($"{car.Manifacturer} : {car.Combined}");
-            //}
-
             Console.ReadLine();
+        }
+
+        private static List<Manufacturer> ProcessManufacturers(string path)
+        {
+            var query =
+                File.ReadAllLines(path)
+                    .Where(l => l.Length > 1)
+                    .Select(x =>
+                    {
+                        var columns = x.Split(',');
+                        return new Manufacturer
+                        {
+                            Name = columns[0],
+                            Headquarters = columns[1],
+                            Year = int.Parse(columns[2])
+                        };
+                    });
+
+            return query.ToList();
         }
 
         private static List<Car> ProcessFile(string path)
