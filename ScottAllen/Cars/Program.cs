@@ -22,13 +22,13 @@ namespace Cars
             var ex = (XNamespace)"http://pluralsight.com/cars/2016/ex";
 
             var document = XDocument.Load("fuel.xml");
-            var query = from element in document.Elements(nameSpace + "Cars").Elements(ex + "Car")
+            var query = from element in document.Elements(nameSpace + "Cars").Elements(ex + "Car") ?? Enumerable.Empty<XElement>()
                 where element.Attribute("Manufacturer")?.Value == "BMW"
                 select element.Attribute("Name")?.Value;
 
-             foreach (var item in query)
+            foreach (var item in query)
             {
-                Console.WriteLine($"{item, 5}");
+                Console.WriteLine($"{item,5}");
             }
         }
 
