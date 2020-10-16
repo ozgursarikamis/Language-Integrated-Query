@@ -29,10 +29,18 @@ namespace Cars
                     (c, m) =>
                         new
                         {
-                            m.Headquarters, c.Name, c.Combined
+                            Car = c,
+                            Manifacturer = m
                         }
                 )
-                .OrderByDescending(x => x.Name);
+                .OrderByDescending(x => x.Car.Combined)
+                .ThenBy(c => c.Car.Name)
+                .Select(x => new
+                {
+                    x.Manifacturer.Headquarters,
+                    x.Car.Name,
+                    x.Car.Combined
+                });
 
             foreach (var car in query2.Take(10))
             {
