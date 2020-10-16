@@ -13,12 +13,21 @@ namespace Cars
             var manufacturers = ProcessManufacturers("manufacturers.csv");
 
             var query = from car in cars
-                orderby car.Name
-                group car by car.Manufacturer;
+                group car by car.Manufacturer.ToUpper()
+                into m
+                orderby m.Key
+                select m;
 
-            foreach (var grouping in query)
+            var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
+                .OrderBy(g => g.Key);
+
+            foreach (var group in query2)
             {
-                Console.WriteLine($"{grouping.Key}: {grouping.Count()} cars");
+                Console.WriteLine($"{group.Key, -10}: {group.Count()} cars");
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t\t{car.Name}: {car.Combined}");
+                }
             }
             Console.ReadLine();
         }
