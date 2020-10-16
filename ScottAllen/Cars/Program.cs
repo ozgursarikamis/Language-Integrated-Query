@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Cars
@@ -10,26 +11,35 @@ namespace Cars
     {
         private static void Main()
         {
+            CreateXml();
+            Console.ReadLine();
+        }
+
+        private static void CreateXml()
+        {
             var records = ProcessFile("fuel.csv");
             var document = new XDocument();
-            var cars = new XElement("Cars");
+            var cars = new XElement("Cars",
+                from record in records
+                select new XElement("Car",
+                    new XAttribute("Name", record.Name),
+                    new XAttribute("Combined", record.Combined),
+                    new XAttribute("Manufacturer", record.Manufacturer)
+                ));
 
             foreach (var record in records)
             {
-                var car = new XElement("Car");
-                var name = new XElement("Name", record.Name);
-                var combined = new XElement("Combined", record.Combined);
-
-                car.Add(name);
-                car.Add(combined);
+                var car = new XElement("Car",
+                    new XAttribute("Name", record.Name),
+                    new XAttribute("Combined", record.Combined),
+                    new XAttribute("Manufacturer", record.Manufacturer)
+                );
 
                 cars.Add(car);
             }
 
             document.Add(cars);
             document.Save("fuel.xml");
-
-            Console.ReadLine();
         }
 
         private static List<Manufacturer> ProcessManufacturers(string path)
