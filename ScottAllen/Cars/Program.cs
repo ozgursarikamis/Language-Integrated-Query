@@ -19,7 +19,7 @@ namespace Cars
         private static void QueryXml()
         {
             var document = XDocument.Load("fuel.xml");
-            var query = from element in document.Element("Cars")?.Elements("Car")
+            var query = from element in document.Descendants("Car")
                 where element.Attribute("Manufacturer")?.Value == "BMW"
                 select element.Attribute("Name")?.Value;
 
