@@ -12,17 +12,21 @@ namespace Cars
             var cars = ProcessFile("fuel.csv");
             var manufacturers = ProcessManufacturers("manufacturers.csv");
 
-            var query = from manufacturer in manufacturers
-                join car in cars on manufacturer.Name equals car.Name
-                    into carGroup
-                orderby manufacturer.Name
+            var query = from car in cars
+                group car by car.Manufacturer
+                into carGroup
                 select new
                 {
-                    Manufacturer = manufacturer,
-                    Cars = carGroup
-                };
+                    Name = carGroup.Key,
+                    Max = carGroup.Max(x => x.Combined),
+                    Min = carGroup.Min(x => x.Combined),
+                    Average = carGroup.Average(x => x.Combined)
+                }
+                into results
+                orderby results.Max descending
+                select results;
 
-            var query2 = manufacturers.GroupJoin(cars,
+                var query2 = manufacturers.GroupJoin(cars,
                 m => m.Name, c => c.Manufacturer, (m, g) => new
                 {
                     Manufacturer = m,
@@ -30,13 +34,12 @@ namespace Cars
                 }
             ).OrderBy(m => m.Manufacturer.Name);
 
-            foreach (var group in query2)
+            foreach (var result in query)
             {
-                Console.WriteLine($"{group.Manufacturer.Name, -10}: {group.Manufacturer.Headquarters}");
-                foreach (var car in group.Cars.OrderByDescending(c => c.Combined).Take(2))
-                {
-                    Console.WriteLine($"\t\t{car.Name}: {car.Combined}");
-                }
+                Console.WriteLine($"{result.Name}");
+                Console.WriteLine($"\tMax {result.Max}");
+                Console.WriteLine($"\tMin {result.Min}");
+                Console.WriteLine($"\tAvg {result.Average}");
             }
             Console.ReadLine();
         }
