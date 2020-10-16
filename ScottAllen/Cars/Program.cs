@@ -18,8 +18,11 @@ namespace Cars
 
         private static void QueryXml()
         {
+            var nameSpace = (XNamespace)"http://pluralsight.com/cars/2016";
+            var ex = (XNamespace)"http://pluralsight.com/cars/2016/ex";
+
             var document = XDocument.Load("fuel.xml");
-            var query = from element in document.Descendants("Car")
+            var query = from element in document.Elements(nameSpace + "Cars").Elements(ex + "Car")
                 where element.Attribute("Manufacturer")?.Value == "BMW"
                 select element.Attribute("Name")?.Value;
 
@@ -44,6 +47,8 @@ namespace Cars
                     new XAttribute("Combined", record.Combined),
                     new XAttribute("Manufacturer", record.Manufacturer)
                 ));
+
+            cars.Add(new XAttribute(XNamespace.Xmlns + "ex", ex));
 
             foreach (var record in records)
             {
