@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Cars
 {
@@ -9,38 +10,25 @@ namespace Cars
     {
         private static void Main()
         {
-            var cars = ProcessFile("fuel.csv");
-            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var records = ProcessFile("fuel.csv");
+            var document = new XDocument();
+            var cars = new XElement("Cars");
 
-            var query = from car in cars
-                group car by car.Manufacturer
-                into carGroup
-                select new
-                {
-                    Name = carGroup.Key,
-                    Max = carGroup.Max(x => x.Combined),
-                    Min = carGroup.Min(x => x.Combined),
-                    Average = carGroup.Average(x => x.Combined)
-                }
-                into results
-                orderby results.Max descending
-                select results;
-
-                var query2 = manufacturers.GroupJoin(cars,
-                m => m.Name, c => c.Manufacturer, (m, g) => new
-                {
-                    Manufacturer = m,
-                    Cars = g
-                }
-            ).OrderBy(m => m.Manufacturer.Name);
-
-            foreach (var result in query)
+            foreach (var record in records)
             {
-                Console.WriteLine($"{result.Name}");
-                Console.WriteLine($"\tMax {result.Max}");
-                Console.WriteLine($"\tMin {result.Min}");
-                Console.WriteLine($"\tAvg {result.Average}");
+                var car = new XElement("Car");
+                var name = new XElement("Name", record.Name);
+                var combined = new XElement("Combined", record.Combined);
+
+                car.Add(name);
+                car.Add(combined);
+
+                cars.Add(car);
             }
+
+            document.Add(cars);
+            document.Save("fuel.xml");
+
             Console.ReadLine();
         }
 
@@ -80,6 +68,35 @@ namespace Cars
 
             //return query.ToList();
         } 
+    }
+
+    public class CarStatistics
+    {
+        public int Max { get; set; }
+        public int Min { get; set; }
+        public double Average { get; set; }
+        public int Count { get; set; }
+        public int Total { get; set; }
+
+        public CarStatistics()
+        {
+            Max = int.MinValue;
+            Min = int.MaxValue;
+        }
+        public CarStatistics Accumulate(Car car)
+        {
+            Count += 1;
+            Total += car.Combined;
+            Max = Math.Max(Max, car.Combined);
+            Min = Math.Min(Min, car.Combined);
+            return this;
+        }
+
+        public CarStatistics Compute()
+        {
+            Average = Total / Count;
+            return this;
+        }
     }
 
     public static class CarExtensions
