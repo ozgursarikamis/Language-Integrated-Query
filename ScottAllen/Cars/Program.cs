@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -11,8 +12,14 @@ namespace Cars
     {
         private static void Main()
         {
-            CreateXml();
-            QueryXml();
+            Func<int, int> square = x => x * x;
+            Expression<Func<int, int, int>> add = (x, y) => x + y;
+            Func<int, int, int> addI = add.Compile();
+            Console.WriteLine(addI(3, 5));
+
+            var result = add.Compile()(3, 5);
+            Console.WriteLine(result);
+
             Console.ReadLine();
         }
 
